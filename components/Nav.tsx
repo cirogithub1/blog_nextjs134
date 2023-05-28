@@ -3,12 +3,12 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect } from "react"
-import { signIn, signOut, useSession, getProviders } from "next-auth/react"
+import { signIn, signOut, useSession, getProviders } from "next-auth/client"
 
 function Nav() {
-	const isUserLogged = true 
+	const { data: session } = useSession()
 
-	const [providers, setProviders] = useState()
+	const [providers, setProviders] = useState(null)
 	const [toggleMenu, setToggleMenu] = useState(false)
 
 	useEffect(() => {
@@ -34,7 +34,7 @@ function Nav() {
 
 			{/* Mobile Navigation */}
 			<div className="sm:flex hidden">
-				{isUserLogged 
+				{session 
 				? 
 					<div className="flex gap-3 md:gap-5">
 						<Link 
@@ -62,22 +62,25 @@ function Nav() {
 				: 
 					<>
 						{providers && 
-							Object.values(providers).map((provider:any) => (
-								<button 
-									className="black_btn"
-									key={provider.name}
-									type="button"
-									onClick={() => signIn(provider.id)}>
-											Sign In with {provider.name}
-								</button>
-							))
+						<>
+							{Object.values(providers)}
+						</>
+							// Object.values(providers).map((provider:any) => (
+							// 	<button 
+							// 		className="black_btn"
+							// 		key={provider.name}
+							// 		type="button"
+							// 		onClick={() => signIn(provider.id)}>
+							// 				Sign In with {provider.name}
+							// 	</button>
+							// ))
 						}
 					</>}
 			</div>
 
 			{/* Mobile Navigation  */}
 			<div className="sm:hidden flex relative">
-				{isUserLogged
+				{session
 				?
 					<div className="flex">
 						<Image 
