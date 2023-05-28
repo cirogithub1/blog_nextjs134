@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect } from "react"
-import { signIn, signOut, useSession, getProviders } from "next-auth/client"
+import { signIn, signOut, useSession, getProviders } from "next-auth/react"
 
 function Nav() {
 	const { data: session } = useSession()
@@ -60,70 +60,66 @@ function Nav() {
 						</Link>
 					</div>	
 				: 
-					<>
-						{providers && 
-						<>
-							{Object.values(providers)}
-						</>
-							// Object.values(providers).map((provider:any) => (
-							// 	<button 
-							// 		className="black_btn"
-							// 		key={provider.name}
-							// 		type="button"
-							// 		onClick={() => signIn(provider.id)}>
-							// 				Sign In with {provider.name}
-							// 	</button>
-							// ))
-						}
-					</>}
+					<button 
+						className="black_btn"
+						type="button"
+						onClick={() => signIn()}>
+								Sign In with Google
+					</button>
+				}
 			</div>
 
 			{/* Mobile Navigation  */}
 			<div className="sm:hidden flex relative">
 				{session
-				?
-					<div className="flex">
-						<Image 
-							src="/assets/icons/menu.svg"
-							alt="profile"
-							width={30}
-							height={30}
-							className="rounded-full"
-							onClick={() => setToggleMenu((prev:any) => !prev)}/>
+					?	
+						<div className="flex">
+							<Image 
+								src="/assets/icons/menu.svg"
+								alt="profile"
+								width={30}
+								height={30}
+								className="rounded-full"
+								onClick={() => setToggleMenu((prev:any) => !prev)}/>
 
-							{toggleMenu && (
-								<div className="dropdown">
-									<Link 
-										href={'/profile'}
-										className="dropdown_link"
-										onClick={() => setToggleMenu(false)}>
-											Profile
-									</Link>
+								{toggleMenu && 
+									<div className="dropdown">
+										<Link 
+											href={'/profile'}
+											className="dropdown_link"
+											onClick={() => setToggleMenu(false)}>
+												Profile
+										</Link>
 
-									<Link 
-										href={'/create-prompt'}
-										className="dropdown_link"
-										onClick={() => setToggleMenu(false)}>
-											Create Prompt
-									</Link>
+										<Link 
+											href={'/create-prompt'}
+											className="dropdown_link"
+											onClick={() => setToggleMenu(false)}>
+												Create Prompt
+										</Link>
 
-									<button 
-										className="black_btn mt-5 w-full"
-										type="button"
-										onClick={() => {
-											setToggleMenu(false)
-											signOut()
-										}}
-									>
-										Sign Out	
-									</button>
-								</div>
-							)}
+										<button 
+											className="black_btn mt-5 w-full"
+											type="button"
+											onClick={() => {
+												setToggleMenu(false)
+												signOut()
+											}}
+										>
+											Sign Out	
+										</button>
+									</div>
+								}	
+						</div>
+					:
+						<button 
+							className="black_btn"
+							type="button"
+							onClick={() => signIn()}>
+									Sign In with Google
+						</button>
 
-					</div>
-				:
-					<>
-					</>}
+					}
 			</div>
 		</nav>
 	)
