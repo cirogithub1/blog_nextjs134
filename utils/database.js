@@ -1,20 +1,19 @@
-// import mongoose from 'mongoose'
+import mongoose from 'mongoose'
 
 async function connectToDB () {
-// 	try {
-// 		const { connection } = await mongoose.connect( 
-// 			process.env.NEXT_PUBLIC_MONGODB_URI
-// 		)
+	try {
+		const { connection } = await mongoose.connect( 
+			process.env.MONGO_URL_DB
+		)
 
-// 		// 0 : disconnected, 1 : connected, 2 : connecting, 3 : disconecting 
-// 		if (connection.readyState === 1) {
-// 			console.log('utils/datanase.js/ connection.readyState =', connection.readyState)
-// 			return Promise.resolve(true)
-// 		}
-// 	} catch (error) {
-// 		Router.push('/login')
-// 		return Promise.reject(error)
-// 	}
+		// 0 : disconnected, 1 : connected, 2 : connecting, 3 : disconecting 
+		if (connection.readyState === 1) {
+			console.log('utils/datanase.js/ connection.readyState =', connection.readyState)
+			return Promise.resolve(true)
+		}
+	} catch (error) {
+		return Promise.reject(error)
+	}
 }
 
 export default connectToDB
